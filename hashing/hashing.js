@@ -1,5 +1,6 @@
 "use strict";
 
+const { log } = require("console");
 var crypto = require("crypto");
 
 // The Power of a Smile
@@ -28,16 +29,46 @@ Blockchain.blocks.push({
 });
 
 // TODO: insert each line into blockchain
-// for (let line of poem) {
-// }
+for (let line of poem) {
+	createBlock(line)
+}
+
+function createBlock(_data) {
+	let block = {
+		index: Blockchain.blocks.length,
+		prevHash: Blockchain.blocks[Blockchain.blocks.length - 1].hash,
+		data: _data,
+		timestamp: Date.now()
+	}
+	block.hash = blockHash(block)
+	Blockchain.blocks.push(block)
+	console.log(block)
+	return block
+}
+
+function verifyChain(_block) {
+	// data
+	// prevHash
+	// index
+	// hash 
+
+}
 
 // console.log(`Blockchain is valid: ${verifyChain(Blockchain)}`);
 
 
 // **********************************
 
-function blockHash(bl) {
+function blockHash(_block) {
+	var str = JSON.stringify(_block)
+
 	return crypto.createHash("sha256").update(
-		// TODO: use block data to calculate hash
+		// (index, prevHash, data, and timestamp)
+		// `${bl.index};${bl.prevHash};${bl.data};${bl.timestamp};`
+		str
+
+		
 	).digest("hex");
 }
+
+
